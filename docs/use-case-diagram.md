@@ -1,14 +1,18 @@
+# Use Case Diagram — HydroCycle OS MVP
+
+This diagram defines the system boundaries, actors, and primary use cases for the MVP scope of the HydroCycle OS platform.
+
 ```mermaid
 graph TB
     subgraph System ["🏭 HydroCycle OS MVP"]
-        UC1["📊 UC1: Ingestovat telemetrická data"]
-        UC2["📍 UC2: Spravovat odběrná místa"]
-        UC3["📈 UC3: Zobrazit klientský dashboard"]
-        UC4["💰 UC4: Vypočítat finanční a CO2 úsporu"]
-        UC5["📋 UC5: Generovat ESG Report"]
+        UC1["📊 UC1: Ingest Telemetry Data"]
+        UC2["📍 UC2: Manage Measurement Points"]
+        UC3["📈 UC3: View Client Dashboard"]
+        UC4["💰 UC4: Calculate Financial & CO2 Savings"]
+        UC5["📋 UC5: Generate ESG Report"]
     end
 
-    Sensor["🤖 IIoT Senzor<br/>(Simulátor)"]
+    Sensor["🤖 IIoT Sensor<br/>(Simulator)"]
     FM["👤 Facility Manager"]
     Auditor["👔 ESG Auditor"]
     Admin["🛠️ Admin"]
@@ -16,14 +20,14 @@ graph TB
     Sensor -->|HTTP POST| UC1
     Admin -->|CRUD| UC2
     FM -->|CRUD| UC2
-    FM -->|Čtení| UC3
-    FM -->|Spuštění| UC4
-    FM -->|Sestavení| UC5
-    Auditor -->|Export/Validace| UC5
+    FM -->|Read| UC3
+    FM -->|Trigger| UC4
+    FM -->|Generate| UC5
+    Auditor -->|Export / Validate| UC5
 
     UC1 -.->|data flow| UC3
-    UC4 -.->|výsledky| UC3
-    UC5 -.->|ESG metriky| UC3
+    UC4 -.->|results| UC3
+    UC5 -.->|ESG metrics| UC3
 
     classDef usecase fill:#fff4e6,stroke:#ff6b35,stroke-width:2px,color:#000
     classDef actor fill:#e8f4f8,stroke:#0077b6,stroke-width:2px,color:#000
