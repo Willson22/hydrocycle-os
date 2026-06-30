@@ -5,7 +5,7 @@ This diagram visualizes the critical path of the MVP: the telemetry data ingesti
 ```mermaid
 sequenceDiagram
 autonumber
-    actor Sensor as 🤖 IIoT Sensor (Simulator)
+    participant Sensor as 🤖 IIoT Sensor (Simulator)
     participant API as 🌐 Express Router
     participant Facade as ⚙️ TelemetryIngestionService
     participant Mongo as 🍃 MongoDB (Time-Series)
