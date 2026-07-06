@@ -23,6 +23,14 @@ classDiagram
         +String locationName
         +String sensorMacAddress
     }
+    class AggregatedSavings{
+        +UUID id
+        +Date periodStart
+        +Date periodEnd
+        +Float waterSavedLiters
+        +Float co2SavedKg
+        +Float financialSavingsEur
+    }
 
     %% --- TIME-SERIES ENTITY (MongoDB) ---
     class TelemetryRecord {
@@ -66,6 +74,7 @@ classDiagram
 
     %% --- RELATIONSHIPS ---
     Building "1" *-- "many" MeasurementPoint : contains
+    Building "1" *-- "many" AggregatedSavings :has
     User "many" -- "many" Building : manages
     MeasurementPoint "1" --> "many" TelemetryRecord : generates
     
