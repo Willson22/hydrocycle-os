@@ -10,7 +10,7 @@ flowchart TD
     Start((Start))
     EndNode((End))
 
-    Req[Recieve calcualtion request <br> <i> (BuildingID, DateRange)</i>]
+    Req[Receive calculation request <br> <i> (BuildingID, DateRange)</i>]
     Fetch[(Query MongoDB <br> for Time-Series data)]
     Cond{Do data exist <br> for the given period?}
 
@@ -23,7 +23,7 @@ flowchart TD
     CalcCO2[Calculate CO2 footprint <br> <i>(Volume * EU_ESG_Factor)</i>]
     CalcFin[Calculate financial savings <br> <i>(Volume * Price per m3)</i>]
 
-    Join (( ))
+    Join(( ))
 
     Save[(Save to PostgreSQL <br> AGGREGATED_SAVINGS table)]
     Return[Return DTO / Update report state]
