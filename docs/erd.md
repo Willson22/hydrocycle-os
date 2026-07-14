@@ -28,15 +28,15 @@ erDiagram
         UUID id PK
         UUID building_id PK
         VARCHAR location_name
-        VARCHAR sensor_mac_adress "UNIQUE"
+        VARCHAR sensor_mac_address "UNIQUE"
         TIMESTAMP created_at
     }
 
     AGGREGATED_SAVINGS {
         UUID id PK
         UUID building_id FK
-        DATE peroid_start
-        DATE peroid_end
+        DATE period_start
+        DATE period_end
         NUMERIC water_saved_liters
         NUMERIC co2_saved_kg
         NUMERIC financial_savings_eur
@@ -44,11 +44,11 @@ erDiagram
     }
 
     %% --- MongoDB (Time-Series) ---
-    MEASUREMENT_POINTS |o--o{ TELEMETRY_RECORD : "Logical Ling (sensor_mac_address)"
+    MEASUREMENT_POINTS |o--o{ TELEMETRY_RECORD : "Logical Link (sensor_mac_address)"
 
     TELEMETRY_RECORD {
         ObjectID _id PK
-        VARCHAR sensorMacAdress "Indexed (MetaField)"
+        VARCHAR sensorMacAdrdess "Indexed (MetaField)"
         DATETIME timestamp "Indexed (Timefield)"
         FLOAT flowRate
         FLOAT volumeTotal
