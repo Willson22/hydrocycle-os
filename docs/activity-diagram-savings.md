@@ -10,24 +10,24 @@ flowchart TD
     Start((Start))
     EndNode((End))
 
-    Req[Receive calculation request <br> <i> (BuildingID, DateRange)</i>]
-    Fetch[(Query MongoDB <br> for Time-Series data)]
-    Cond{Do data exist <br> for the given period?}
+    Req["Receive calculation request <br> <i>(BuildingID, DateRange)</i>"]
+    Fetch[("Query MongoDB <br> for Time-Series data")]
+    Cond{"Do data exist <br> for the given period?"}
 
-    CalcVolume[Aggregate flow volume <br> <i>(Sum of greywater liters)</i>]
+    CalcVolume["Aggregate flow volume <br> <i>(Sum of greywater liters)</i>"]
 
     %% Parallel processing (Fork/Join) // Enabled by Node.js method Promise.all()
     Fork1(( ))
     Fork2(( ))
 
-    CalcCO2[Calculate CO2 footprint <br> <i>(Volume * EU_ESG_Factor)</i>]
-    CalcFin[Calculate financial savings <br> <i>(Volume * Price per m3)</i>]
+    CalcCO2["Calculate CO2 footprint <br> <i>(Volume * EU_ESG_Factor)</i>"]
+    CalcFin["Calculate financial savings <br> <i>(Volume * Price per m3)</i>"]
 
     Join(( ))
 
-    Save[(Save to PostgreSQL <br> AGGREGATED_SAVINGS table)]
-    Return[Return DTO / Update report state]
-    Err[Write to error log <br> and return 404/400]
+    Save[("Save to PostgreSQL <br> AGGREGATED_SAVINGS table")]
+    Return["Return DTO / Update report state"]
+    Err["Write to error log <br> and return 404/400"]
 
     %% Logic flow
     Start --> Req
