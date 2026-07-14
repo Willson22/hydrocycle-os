@@ -1,8 +1,8 @@
-## Authentication model - HydroCycle OS MVP
+# Authentication model - HydroCycle OS MVP
 
 The system uses a dual authentication strategy depending on the actor interacting with the API.
 
-# Client Authentication (JWT - JSON Web Token)
+## Client Authentication (JWT - JSON Web Token)
 
 Used by human actors (Admin, Facility Manager, Auditor) accessing the React Dashboard.
 
@@ -38,7 +38,7 @@ To maintain security, the JWT payload contains only non-sensitive identification
     "exp": 1720371600
 }
 
-# Machine-to-machine (M2M) authentication
+## Machine-to-machine (M2M) authentication
 
 Used by the IIot to ingest telemetry data
 
@@ -46,17 +46,17 @@ Used by the IIot to ingest telemetry data
  * Transport: Passed via the HTTP header Authorization: Bearer <M2M_API_KEY>.
  * Validation : Verified directly via custom Express.js middleware against enviromental variables.
 
- ## Role-Based Access Control (RBAC) Matrix
+# Role-Based Access Control (RBAC) Matrix
 
  Authorization is handled via middleware that checks the role claim in the verified JWT against allowed roles for a specific endpoint.
 
-# Defined Roles:
+## Defined Roles:
 
  * Admin (System administrator): Full access to global management and global oversight.
  * Facility Manager (Standart User): Manages the buildings and sensor assigned to their account.
  * ESG Auditor (Read-Only): External auditor requiring access to generated reports and historical telemetry for compliance verification
 
-# Access Matrix:
+## Access Matrix:
 
 | Resource / Endpoint | Admin | Facility Manager | ESG Auditor | IoT Sensor |
 | :--- | :---: | :---: | :---: | :---: |
