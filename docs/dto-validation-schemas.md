@@ -65,8 +65,8 @@ DtoIn:
 ```typescript
 export const measurementPointCreateDtoInSchema = z.object({
     body: z.object({
-        locationName: z.string().min(3);
-        sensorMACAddress: z.string()
+        locationName: z.string().min(3),
+        sensorMacAddress: z.string()
     }).strict()
 });
 ```
@@ -75,7 +75,7 @@ DtoOut:
 export const measurementPointDtoOutSchema = z.object({
     id: z.string().uuid(),
     locationName: z.string(),
-    sensorMACAddress: z.string(),
+    sensorMacAddress: z.string(),
     createdAt: z.string().datetime()
 });
 ```
@@ -86,7 +86,7 @@ DtoIn
 ```typescript
 export const telemetryDataCreateDtoInSchema = z.object({
     body: z.object({
-        sensorMACAddress: z.string(),
+        sensorMacAddress: z.string(),
         timestamp: z.string().datetime(),
         flowRate: z.number(),
         volumeTotal: z.number()
@@ -98,7 +98,7 @@ DtoOut:
 ```typescript
 export const telemetryDataDtoOut = z.object({
     id: z.string().uuid(),
-    sensorMACAddress: z.string(),
+    sensorMacAddress: z.string(),
     timestamp: z.string().datetime(),
     flowRate: z.number(),
     volumeTotal: z.number()
@@ -115,6 +115,7 @@ export const aggregatedSavingsCreateDtoInSchema = z.object({
         periodEnd: z.string().datetime(),
         waterSavedLitres: z.number(),
         co2SavedKg: z.number(),
+        financialSavingsEur: z.number()
     }).strict()
 })
 ```
@@ -126,5 +127,6 @@ export const aggregatedSavingsDtoOut = z.object({
     periodStart: z.string().datetime(),
     periodEnd: z.string().datetime(),
     waterSavedLitres: z.number(),
-    co2SavedKg: z.number()
+    co2SavedKg: z.number(),
+    financialSavingsEur: z.number()
 })

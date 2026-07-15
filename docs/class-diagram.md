@@ -10,24 +10,29 @@ classDiagram
     class User {
         +UUID id
         +String email
+        -String passwordHash
         +String role
+        -Date createdAt
     }
     class Building {
         +UUID id
         +String name
         +String address
         +addMeasurementPoint(Point)
+        -Date createdAt
     }
     class MeasurementPoint {
         +UUID id
         +String locationName
         +String sensorMacAddress
+        -Date createdAt
+
     }
     class AggregatedSavings{
         +UUID id
         +Date periodStart
         +Date periodEnd
-        +Float waterSavedLiters
+        +Float waterSavedLitres
         +Float co2SavedKg
         +Float financialSavingsEur
     }

@@ -14,7 +14,7 @@ flowchart TD
     Fetch[("Query MongoDB <br> for Time-Series data")]
     Cond{"Do data exist <br> for the given period?"}
 
-    CalcVolume["Aggregate flow volume <br> <i>(Sum of greywater liters)</i>"]
+    CalcVolume["Aggregate flow volume <br> <i>(Sum of greywater litres)</i>"]
 
     %% Parallel processing (Fork/Join) // Enabled by Node.js method Promise.all()
     Fork1(( ))

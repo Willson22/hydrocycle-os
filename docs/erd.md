@@ -37,7 +37,7 @@ erDiagram
         UUID building_id FK
         DATE period_start
         DATE period_end
-        NUMERIC water_saved_liters
+        NUMERIC water_saved_litres
         NUMERIC co2_saved_kg
         NUMERIC financial_savings_eur
         TIMESTAMP updated_at
@@ -48,7 +48,7 @@ erDiagram
 
     TELEMETRY_RECORD {
         ObjectID _id PK
-        VARCHAR sensorMacAdrdess "Indexed (MetaField)"
+        VARCHAR sensorMacAddress "Indexed (MetaField)"
         DATETIME timestamp "Indexed (Timefield)"
         FLOAT flowRate
         FLOAT volumeTotal

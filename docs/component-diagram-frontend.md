@@ -29,7 +29,7 @@ flowchart TD
     %% Complex UI Components
     subgraph Dashboard_Components ["Dashboard Features"]
         WaterChart["WaterCycleChart <br> (Recharts: Telemetry Viz)"]
-        StatCards["KpiCards <br> (Saved Liters, CO2, EUR)"]
+        StatCards["KpiCards <br> (Saved Litres, CO2, EUR)"]
     end
 
     subgraph Management_Components ["Point Management Features"]
