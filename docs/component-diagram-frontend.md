@@ -73,4 +73,3 @@ flowchart TD
     class Layout layout;
     class Pages page;
     class Dashboard_Components,Management_Components,Report_Components comp;
-    ```
