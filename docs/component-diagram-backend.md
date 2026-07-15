@@ -74,4 +74,3 @@ flowchart TD
     class API,ControllersLayer,ServicesLayer,DAOLayer layer;
     class Edge,Frontend ext;
     class MongoDB,PostgreSQL db;
-    ```
