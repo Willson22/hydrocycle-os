@@ -3,65 +3,75 @@
 This diagram illustrates the internal modular structure of the HydroCycle OS. It strictly enforces the N-Tier architectural pattern (Routes -> Controllers -> Services -> Data Access) and showcases the integration of the IIoT Simulator.
 
 ```mermaid
-componentDiagram
+flowchart TD
     %% External Systems & Entry Points
-    package "Edge Devices" {
-        [IIoT Sensor Simulator]
-    }
+    subgraph Edge ["Edge Devices"]
+        Simulator["IIoT Sensor Simulator"]
+    end
 
-    package "React Frontend" {
-        [Client Dashboard]
-    }
+    subgraph Frontend ["React Frontend"]
+        Client["Client Dashboard"]
+    end
 
     %% Backend - Presentation Layer
-    package "API Layer (Express.js)" {
-        [Ingestion Routes]
-        [Dashboard Routes]
-        
-        [Client Dashboard] --> [Dashboard Routes] : HTTPS / JSON
-        [IIoT Sensor Simulator] --> [Ingestion Routes] : HTTPS / POST Payload
-    }
+    subgraph API ["API Layer (Express.js)"]
+        IngestionRoutes["Ingestion Routes"]
+        DashboardRoutes["Dashboard Routes"]
+    end
 
     %% Backend - Controller Layer
-    package "Controllers" {
-        [Telemetry Controller]
-        [Report Controller]
-        [Building Controller]
-        
-        [Ingestion Routes] --> [Telemetry Controller]
-        [Dashboard Routes] --> [Report Controller]
-        [Dashboard Routes] --> [Building Controller]
-    }
+    subgraph ControllersLayer ["Controllers"]
+        TeleController["Telemetry Controller"]
+        RepController["Report Controller"]
+        BldgController["Building Controller"]
+    end
 
     %% Backend - Business Logic Layer
-    package "Services (Business Logic)" {
-        [Telemetry Ingestion Service]
-        [ESG Calculation Service]
-        
-        [Telemetry Controller] --> [Telemetry Ingestion Service]
-        [Report Controller] --> [ESG Calculation Service]
-        [Building Controller] --> [ESG Calculation Service] : "requests data"
-    }
+    subgraph ServicesLayer ["Services (Business Logic)"]
+        TeleService["Telemetry Ingestion Service"]
+        ESGService["ESG Calculation Service"]
+    end
 
     %% Backend - Data Access Layer (DAO)
-    package "Data Access Layer (DAO)" {
-        [Mongo Telemetry DAO]
-        [Postgres Entity DAO]
-        
-        [Telemetry Ingestion Service] --> [Mongo Telemetry DAO]
-        [ESG Calculation Service] --> [Postgres Entity DAO]
-        [ESG Calculation Service] --> [Mongo Telemetry DAO] : "fetches raw volume"
-    }
+    subgraph DAOLayer ["Data Access Layer (DAO)"]
+        MongoDAO["Mongo Telemetry DAO"]
+        PostgresDAO["Postgres Entity DAO"]
+    end
 
     %% Databases (Polyglot Persistence)
-    database "MongoDB (Time-Series)" {
-        [Telemetry Collection]
-    }
+    subgraph MongoDB ["MongoDB (Time-Series)"]
+        TeleCollection[("Telemetry Collection")]
+    end
     
-    database "PostgreSQL (Relational)" {
-        [Entities & Savings Tables]
-    }
+    subgraph PostgreSQL ["PostgreSQL (Relational)"]
+        EntitiesTables[("Entities & Savings Tables")]
+    end
 
-    [Mongo Telemetry DAO] --> [Telemetry Collection]
-    [Postgres Entity DAO] --> [Entities & Savings Tables]
+    %% Data Flow & Connections
+    Client -- "HTTPS / JSON" --> DashboardRoutes
+    Simulator -- "HTTPS / POST Payload" --> IngestionRoutes
+
+    IngestionRoutes --> TeleController
+    DashboardRoutes --> RepController
+    DashboardRoutes --> BldgController
+
+    TeleController --> TeleService
+    RepController --> ESGService
+    BldgController -- "requests data" --> ESGService
+
+    TeleService --> MongoDAO
+    ESGService --> PostgresDAO
+    ESGService -- "fetches raw volume" --> MongoDAO
+
+    MongoDAO --> TeleCollection
+    PostgresDAO --> EntitiesTables
+
+    %% Styling for better readability
+    classDef layer fill:#f8f9fa,stroke:#dee2e6,stroke-width:2px,color:#212529;
+    classDef ext fill:#e9ecef,stroke:#ced4da,stroke-width:2px,color:#495057;
+    classDef db fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#212529;
+    
+    class API,ControllersLayer,ServicesLayer,DAOLayer layer;
+    class Edge,Frontend ext;
+    class MongoDB,PostgreSQL db;
     ```
