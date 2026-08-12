@@ -1,39 +1,34 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodSchema, ZodError, ZodIssue } from 'zod';
+import { ZodTypeAny } from 'zod';
 
 /**
  * Zod validation middleware.
- * Intercepts incoming requests and validates them against the provided DtoIn schema.
- * Enforces the Garbage In, Garbage Out principle.
+ * Uses safeParse to enforce Garbage In, Garbage Out without throwing exceptions.
  */
-export const validate = (schema: ZodSchema) => 
+export const validate = (schema: ZodTypeAny) => 
     (req: Request, res: Response, next: NextFunction): void => {
-        try {
-            // Synchronous parsing of the incoming request structure
-            schema.parse({
-                body: req.body,
-                query: req.query,
-                params: req.params,
+        // Synchronous safe parsing - never throws an exception
+        const parseResult = schema.safeParse({
+            body: req.body,
+            query: req.query,
+            params: req.params,
+        });
+
+        if (!parseResult.success) {
+            // Using '.issues' instead of '.errors' ensures strict TypeScript compatibility
+            res.status(400).json({
+                status: "error",
+                code: "VALIDATION_FAILED",
+                message: "Invalid input data provided.",
+                details: parseResult.error.issues.map(err => ({
+                    field: err.path.join('.').replace('body.', ''),
+                    message: err.message
+                })),
+                timestamp: new Date().toISOString()
             });
-            next();
-        } catch (error: unknown) {
-            if (error instanceof ZodError) {
-                // Formatting the response strictly according to the HydroCycle OS Error Handling Policy
-                res.status(400).json({
-                    status: "error",
-                    code: "VALIDATION_FAILED",
-                    message: "Invalid input data provided.",
-                    details: error.errors.map((err: ZodIssue) => ({
-                        // Stripping the internal 'body.' prefix to keep the client output clean
-                        field: err.path.join('.').replace('body.', ''),
-                        message: err.message
-                    })),
-                    timestamp: new Date().toISOString()
-                });
-                return;
-            }
-            
-            // Forwarding unexpected internal errors to the global Express error handler
-            next(error);
+            return;
         }
+
+        // Proceed to the next middleware or controller if validation succeeds
+        next();
     };
