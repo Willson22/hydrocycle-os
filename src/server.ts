@@ -1,16 +1,18 @@
 // Outside communication: configuration reading, initializing DB connections before accepting requests
 import 'dotenv/config'; // Loading variables from .env file
 import { app } from './app';
+import { connectPostgres } from './db/postgre';
+import { connectMongoDB } from './db/mongo';
 
 const PORT = process.env.PORT || 3000;
 
 async function startServer() {
     try {
         // Here we initialize Polyglot Persistence (waiting for implementation of Mongoose and Postgres clients)
-        // console.log('[INFO] Connecting to MongoDB Atlas (Time-Series)...');
-        // await connectMongoDB();
-        // console.log('[INFO] Connecting to PostgreSQL (Entities)...');
-        // await connectPostgres();
+        console.log('[INFO] Connecting to MongoDB Atlas (Time-Series)...');
+        await connectMongoDB();
+        console.log('[INFO] Connecting to PostgreSQL (Entities)...');
+        await connectPostgres();
 
         app.listen(PORT, () => {
             console.log(`[INFO] HydroCycle OS successfully running on port ${PORT}`);
