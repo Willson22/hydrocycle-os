@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Data source configured to use our validated environment variable
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URI")
+}
+
+// Represents the system user (e.g., Facility Manager or Admin)
+model User {
+  id           String     @id @default(uuid()) @db.Uuid
+  email        String     @unique
+  passwordHash String     @map("password_hash")
+  role         String
+  createdAt    DateTime   @default(now()) @map("created_at")
+  
+  buildings    Building[]
+
+  @@map("users")
+}
+
+// Represents a commercial building managed by a user
+model Building {
+  id                String              @id @default(uuid()) @db.Uuid
+  userId            String              @db.Uuid
+  name              String
+  address           String
+  createdAt         DateTime            @default(now()) @map("created_at")
+  
+  user              User                @relation(fields: [userId], references: [id])
+  measurementPoints MeasurementPoint[]
+  aggregatedSavings AggregatedSavings[]
+
+  @@map("building")
+}
+
+// Defines a physical sensor location within a building
+model MeasurementPoint {
+  id               String   @id @default(uuid()) @db.Uuid
+  buildingId       String   @db.Uuid
+  locationName     String   @map("location_name")
+  sensorMacAddress String   @unique @map("sensor_mac_address")
+  createdAt        DateTime @default(now()) @map("created_at")
+  
+  building         Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@map("measurement_points")
+}
+
+// Stores calculated ESG reports and financial savings for the dashboard
+model AggregatedSavings {
+  id                  String   @id @default(uuid()) @db.Uuid
+  buildingId          String   @db.Uuid
+  periodStart         DateTime @map("period_start") @db.Date
+  periodEnd           DateTime @map("period_end") @db.Date
+  waterSavedLitres    Float    @map("water_saved_litres")
+  co2SavedKg          Float    @map("co2_saved_kg")
+  financialSavingsEur Float    @map("financial_savings_eur")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+  
+  building            Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@map("aggregated_savings")
+}

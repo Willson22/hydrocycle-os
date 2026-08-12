@@ -1,0 +1,13 @@
+# Node dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Build outputs (pro budoucí kompilaci TypeScriptu)
+dist/
+build/
+
+# IDE files
+.vscode/
+/src/generated/prisma
