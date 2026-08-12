@@ -1,0 +1,34 @@
+name: Static Analysis & Build Check
+
+# Trigger the workflow on pushes and PRs to main and develop branches
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x' # Aligning with our production environment
+          cache: 'npm'
+
+      - name: Install dependencies
+        # npm ci is strictly used in CI/CD environments for clean, reproducible builds
+        run: npm ci
+
+      - name: Generate Prisma Client
+        # Crucial step: Prisma types must exist before TypeScript can validate the code
+        run: npx prisma generate
+
+      - name: Run TypeScript Static Analysis
+        # Fails the pipeline if there are any TypeScript errors
+        run: npm run typecheck
