@@ -10,4 +10,4 @@ build/
 
 # IDE files
 .vscode/
-/src/generated/prisma
+src/generated/

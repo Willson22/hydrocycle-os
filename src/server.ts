@@ -1,7 +1,7 @@
 // Outside communication: configuration reading, initializing DB connections before accepting requests
 import 'dotenv/config'; // Loading variables from .env file
 import { app } from './app';
-import { connectPostgres } from './db/postgre';
+import { connectPostgres } from './db/postgres';
 import { connectMongoDB } from './db/mongo';
 
 const PORT = process.env.PORT || 3000;
