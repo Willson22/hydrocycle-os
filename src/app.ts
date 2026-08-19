@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
+import { telemetryRouter } from './routes/telemetry.routes';
 
 export const app = express();
 
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(morgan('combined'));
 
 // 2. Module Entry Points (Routes)
-// app.use('/api/v1/telemetry', telemetryRouter);
+app.use('/api/v1/telemetry', telemetryRouter);
 // app.use('/api/v1/buildings', buildingRouter);
 
 // 3. Fallback for nonexistent resources (404)
