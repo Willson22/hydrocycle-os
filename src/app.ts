@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
 import { telemetryRouter } from './routes/telemetry.routes';
+import { authRouter } from './routes/auth.routes';
 
 export const app = express();
 
@@ -15,6 +16,7 @@ app.use(morgan('combined'));
 
 // 2. Module Entry Points (Routes)
 app.use('/api/v1/telemetry', telemetryRouter);
+app.use('/api/v1/auth', authRouter);
 // app.use('/api/v1/buildings', buildingRouter);
 
 // 3. Fallback for nonexistent resources (404)

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodTypeAny } from 'zod';
+import { ZodType } from 'zod';
 
 /**
  * Zod validation middleware.
  * Uses safeParse to enforce Garbage In, Garbage Out without throwing exceptions.
  */
-export const validate = (schema: ZodTypeAny) => 
+export const validate = (schema: ZodType) => 
     (req: Request, res: Response, next: NextFunction): void => {
         // Synchronous safe parsing - never throws an exception
         const parseResult = schema.safeParse({
