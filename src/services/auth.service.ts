@@ -1,11 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'  
-import { PrismaClient } from '../generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { prisma } from '../db/postgres';
 import { LoginDtoIn } from '../dto/auth.dto';
-
-const adapter = new PrismaPg({ connectionString: process.env.POSTGRE_URI });
-const prisma = new PrismaClient({ adapter });
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 if (!JWT_SECRET) {
